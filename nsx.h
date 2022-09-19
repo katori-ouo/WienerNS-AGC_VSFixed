@@ -10,16 +10,10 @@
 
 #include "signal_processing_library.h"
 #include "typedefs.h"
-
-#define CEVAOPT 1
-#define CUT     0
-#define FSmooth 0
-
-#if CEVAOPT
 #include "CEVA_common.h"
 #include "ceva_typedef.h"
-#endif
 
+#define FSmooth         0
 #define SMOOTH_APY16	  22937  // 平滑功率谱的平滑因子0.7, Q15
 #define SMOOTH_APY16_S  9831   // Q15MOD - SMOOTH_APY16, Q15
 #define SMOOTH_R16		  32702	 // 更新平滑功率谱最小值的经验常数0.998, Q15

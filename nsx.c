@@ -15,14 +15,11 @@
 #include "audio_config.h"
 #include "nsx.h"
 
-#if CEVAOPT
 extern const int32_t CEVA_TL4_cos_sin_fft_32[512 * 2];
 extern const int32_t twi_table_32_rfft_256[64 * 2];
 int32_t fftftemp[ANAL_BLOCKL_MAX * 2];
 int32_t FFTIOt[ANAL_BLOCKL_MAX];
 int32_t bitrev[0x400 + 2];
-#endif
-
 
 // Q15
 const int32_t delta32[129] = { 42598, 42598, 42598, 42598, 42598, 42598, 42598, 42598, 42598,
