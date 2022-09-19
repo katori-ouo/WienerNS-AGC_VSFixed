@@ -40,3 +40,7 @@
 - 定义了一些常用的信号处理函数。
 - 函数的声明和部分内联函数在"signal_processing_library.h"和"spl_inl.h"。
 - 其他函数的实现在"operations.c"中。
+
+## 9. audio_config.h
+
+- 音频处理的一些参数，如采样率和帧长等。
