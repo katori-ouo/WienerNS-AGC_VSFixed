@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "audio_config.h"
+#include "typedefs.h"
 #include "nsx.h"
 #include "agc.h"
 
-#define FRAME_LEN (128)
-
-void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, int nSample, int nMode)
+void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, uint32_t nSample)
 {
 	void *pNS_inst = NULL;
 	void *AGC_inst = NULL;
@@ -22,21 +21,21 @@ void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, int nSample, int nMod
 		InnoTalkNsx_InitCore(pNS_inst, nSample);
 
 		InnoTalkAgc_Create(&AGC_inst);
-		int minLevel = 0;
-		int maxLevel = 255;
-		int agcMode = kAgcModeAdaptiveDigital;
+		int32_t minLevel = 0;
+		int32_t maxLevel = 255;
+		// int agcMode = kAgcModeAdaptiveDigital;
 		InnoTalkAgc_Init(AGC_inst, minLevel, maxLevel, nSample);
 
 		InnoTalkAgc_config_t agcConfig;
-		agcConfig.compressionGaindB = 15;
-		agcConfig.limiterEnable = 1;
-		agcConfig.targetLevelDbfs = 6;
-		agcConfig.SilenceGainFall = 110;
-		agcConfig.AgcVadLowThr = 0;                //JT:AGC中VAD判定低门限,Q10，推荐值为0
-		agcConfig.AgcVadUppThr = 1024;             //JT:AGC中VAD判定高门限,Q10，推荐值为1024
-		agcConfig.GateLowThr = 0;                  //JT:Gate判定低门限，推荐值为0
-		agcConfig.GateUppThr = 2500;               //JT:Gate判定高门限，推荐值为2500
-		agcConfig.GateVadSensitivity = 6;             //JT:Gate计算对语音活性的敏感度，推荐值为6
+		agcConfig.compressionGaindB = (int16_t)15;
+		agcConfig.limiterEnable = (uint8_t)1;
+		agcConfig.targetLevelDbfs = (int16_t)6;
+		agcConfig.SilenceGainFall = (int16_t)110;
+		agcConfig.AgcVadLowThr =  (int16_t)0;                //JT:AGC中VAD判定低门限,Q10，推荐值为0
+		agcConfig.AgcVadUppThr =  (int16_t)1024;             //JT:AGC中VAD判定高门限,Q10，推荐值为1024
+		agcConfig.GateLowThr =  (int16_t)0;                  //JT:Gate判定低门限，推荐值为0
+		agcConfig.GateUppThr =  (int16_t)2500;               //JT:Gate判定高门限，推荐值为2500
+		agcConfig.GateVadSensitivity =  (int16_t)6;             //JT:Gate计算对语音活性的敏感度，推荐值为6
 		InnoTalkAgc_set_config(AGC_inst, agcConfig);
 
 		fpIn = fopen(szFileIn, "rb");
@@ -52,7 +51,7 @@ void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, int nSample, int nMod
 			if (FRAME_LEN == fread(shInL, sizeof(short), FRAME_LEN, fpIn))
 			{
 				InnoTalkNsx_ProcessCore(pNS_inst, shInL, shTmpL);
-				InnoTalkAgc_Process(AGC_inst, shTmpL, FRAME_LEN, shOutL, agcConfig);
+				InnoTalkAgc_Process(AGC_inst, shTmpL, shOutL, agcConfig);
 				fwrite(shOutL, sizeof(short), FRAME_LEN, fpOut);
 			}
 			else
@@ -69,7 +68,7 @@ void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, int nSample, int nMod
 int main()
 {
 	printf("processing...\n");
-	InnoTalkNS16KSampleX("TelinkTest.pcm", "TelinkTest0919.pcm", 16000, 3);
+	InnoTalkNS16KSampleX("TelinkTest.pcm", "TelinkTest0919.pcm", (uint32_t)16000);
 	printf("end!\n");
 
 	getchar();
