@@ -42,7 +42,7 @@ typedef struct NsxInst_t_ {
 
   int                     initFlag;
 
-  uint32_t                fs;
+  uint32_t                fs; //FIXME: 采样频率没有用到
   int                     blockLen; // 块长度
   int16_t                 analysisBuffer[ANAL_BLOCKL_MAX];
   int16_t                 synthesisBuffer[ANAL_BLOCKL_MAX];
@@ -86,9 +86,7 @@ extern "C"
 #endif
 int InnoTalkNsx_Create(void** nsxInst);
 int32_t InnoTalkNsx_InitCore(void* inst, uint32_t fs);
-int InnoTalkNsx_ProcessCore(void* inst,
-                          short* inFrameLow,
-                          short* outFrameLow);
+int InnoTalkNsx_ProcessCore(void* inst, short* inFrameLow, short* outFrameLow);
 #ifdef __cplusplus
 }
 #endif
