@@ -11,16 +11,9 @@
 #include "signal_processing_library.h"
 #include "typedefs.h"
 
-#define Q15MOD               32768
-#define Q31MOD          2147483648
-#define Q30MOD          1073741824
 #define CEVAOPT 1
 #define CUT     0
 #define FSmooth 0
-#define ANAL_BLOCKL_MAX         256 /* Max analysis block length */
-#define ANAL_BLOCKL_MAXD2       128 /* Max analysis block length */
-#define HALF_ANAL_BLOCKL        129 /* Half max analysis block length + 1 */
-#define END_STARTUP_LONG        200
 
 #if CEVAOPT
 #include "CEVA_common.h"

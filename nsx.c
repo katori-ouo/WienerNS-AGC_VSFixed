@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "audio_config.h"
 #include "nsx.h"
 
 #if CEVAOPT
@@ -521,7 +522,6 @@ int InnoTalkNsx_ProcessCore(void* inst1, short* speechFrame, short* outFrame) {
     CEVA_TL4_vec_shf32_asm(winDataO, -inst->norm, ANAL_BLOCKL_MAX, winDataO);
 
     factor32 = Q15MOD;
-    //if (inst->blockIndex > END_STARTUP_LONG) {
     if (inst->blockIndex > 0) {
         energyOut = 0;
         for (i = 0; i < ANAL_BLOCKL_MAX; i++) {
@@ -546,12 +546,6 @@ int InnoTalkNsx_ProcessCore(void* inst1, short* speechFrame, short* outFrame) {
 
     for (i = 0; i < inst->blockLen; i++) {
         dTmp = (short)inst->synthesisBuffer[i];
-        //if (dTmp < INNOTALK_SPL_WORD16_MIN) {
-           // dTmp = INNOTALK_SPL_WORD16_MIN;
-        //}
-        //else if (dTmp > INNOTALK_SPL_WORD16_MAX) {
-           // dTmp = INNOTALK_SPL_WORD16_MAX;
-        //}
         outFrame[i] = dTmp;
     }
     // update synthesis buffer

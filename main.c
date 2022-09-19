@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "audio_config.h"
 #include "nsx.h"
 #include "agc.h"
 
-#define LEN128_PACKET (128)
+#define FRAME_LEN (128)
 
 void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, int nSample, int nMode)
 {
 	void *pNS_inst = NULL;
 	void *AGC_inst = NULL;
-	short shInL[LEN128_PACKET] = { 0 };
-	short shTmpL[LEN128_PACKET] = { 0 };
-	short shOutL[LEN128_PACKET] = { 0 };
+	short shInL[FRAME_LEN] = { 0 };
+	short shTmpL[FRAME_LEN] = { 0 };
+	short shOutL[FRAME_LEN] = { 0 };
 	FILE *fpIn = NULL;
 	FILE *fpOut = NULL;
 
@@ -48,11 +49,11 @@ void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, int nSample, int nMod
 
 		while (1)
 		{
-			if (LEN128_PACKET == fread(shInL, sizeof(short), LEN128_PACKET, fpIn))
+			if (FRAME_LEN == fread(shInL, sizeof(short), FRAME_LEN, fpIn))
 			{
 				InnoTalkNsx_ProcessCore(pNS_inst, shInL, shTmpL);
-				InnoTalkAgc_Process(AGC_inst, shTmpL, LEN128_PACKET, shOutL, agcConfig);
-				fwrite(shOutL, sizeof(short), LEN128_PACKET, fpOut);
+				InnoTalkAgc_Process(AGC_inst, shTmpL, FRAME_LEN, shOutL, agcConfig);
+				fwrite(shOutL, sizeof(short), FRAME_LEN, fpOut);
 			}
 			else
 			{
