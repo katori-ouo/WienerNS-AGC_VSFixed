@@ -5,8 +5,8 @@
  *      Author: w
  */
 
-#ifndef NSX_H_
-#define NSX_H_
+#ifndef INNOTALK_NOISE_SUPRESSION_H_
+#define INNOTALK_NOISE_SUPRESSION_H_
 
 #include "signal_processing_library.h"
 #include "typedefs.h"
@@ -90,4 +90,4 @@ int InnoTalkNsx_ProcessCore(void* inst, short* inFrameLow, short* outFrameLow);
 #ifdef __cplusplus
 }
 #endif
-#endif /* NSX_H_ */
+#endif /* NOTALK_NOISE_SUPRESSION_H_ */
