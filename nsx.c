@@ -12,7 +12,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "audio_config.h"
 #include "nsx.h"
 
 extern const int32_t CEVA_TL4_cos_sin_fft_32[512 * 2];
@@ -140,7 +139,6 @@ int InnoTalkNsx_Create(void** NS_inst)
  * @return int32_t 初始化失败返回-1, 否则返回0
  */
 int32_t InnoTalkNsx_InitCore(void* inst1, uint32_t fs) {
-    int i;
     NsxInst_t* inst = (NsxInst_t*)inst1;
     if (inst == NULL) {
         return -1;
@@ -349,15 +347,15 @@ int InnoTalkNsx_ProcessCore(void* inst1, short* speechFrame, short* outFrame) {
         // norm < normPrev, 当前帧的magn右移位数更多, 则把上一帧数据再右移
         if (Qdiff < 0)
         {
-            CEVA_TL4_vec_shf32_asm(inst->pmagnPrev32, Qdiff, HALF_ANAL_BLOCKL, inst->pmagnPrev32); //Q(2*norm)
-            CEVA_TL4_vec_shf32_asm(inst->minMagn32, Qdiff, HALF_ANAL_BLOCKL, inst->minMagn32); //Q(2*norm)
-            CEVA_TL4_vec_shf32_asm(inst->noisePrev32, Qdiff, HALF_ANAL_BLOCKL, inst->noisePrev32); //Q(2*norm)
-            CEVA_TL4_vec_shf32_asm(inst->signalPrev32, Qdiff, HALF_ANAL_BLOCKL, inst->signalPrev32); //Q(2*norm)
+            CEVA_TL4_vec_shf32(inst->pmagnPrev32, Qdiff, HALF_ANAL_BLOCKL, inst->pmagnPrev32); //Q(2*norm)
+            CEVA_TL4_vec_shf32(inst->minMagn32, Qdiff, HALF_ANAL_BLOCKL, inst->minMagn32); //Q(2*norm)
+            CEVA_TL4_vec_shf32(inst->noisePrev32, Qdiff, HALF_ANAL_BLOCKL, inst->noisePrev32); //Q(2*norm)
+            CEVA_TL4_vec_shf32(inst->signalPrev32, Qdiff, HALF_ANAL_BLOCKL, inst->signalPrev32); //Q(2*norm)
         }
         // norm > normPrev, 上一帧帧的magn右移位数更多, 则把当前帧数据再右移
         else if (Qdiff > 0) // norm > normPrev, 转到normPrev
         {
-            CEVA_TL4_vec_shf32_asm(magn32, -Qdiff, HALF_ANAL_BLOCKL, magn32);
+            CEVA_TL4_vec_shf32(magn32, -Qdiff, HALF_ANAL_BLOCKL, magn32);
         }
 
         for (i = 0; i < HALF_ANAL_BLOCKL; i++)
@@ -426,9 +424,9 @@ int InnoTalkNsx_ProcessCore(void* inst1, short* speechFrame, short* outFrame) {
     }
     else
     {
-        CEVA_TL4_vec_shf32_asm(pmagn32, Qdiff, HALF_ANAL_BLOCKL, inst->pmagnPrev32);
-        CEVA_TL4_vec_shf32_asm(noise32, Qdiff, HALF_ANAL_BLOCKL, inst->noisePrev32);
-        CEVA_TL4_vec_shf32_asm(inst->minMagn32, Qdiff, HALF_ANAL_BLOCKL, inst->minMagn32);
+        CEVA_TL4_vec_shf32(pmagn32, Qdiff, HALF_ANAL_BLOCKL, inst->pmagnPrev32);
+        CEVA_TL4_vec_shf32(noise32, Qdiff, HALF_ANAL_BLOCKL, inst->noisePrev32);
+        CEVA_TL4_vec_shf32(inst->minMagn32, Qdiff, HALF_ANAL_BLOCKL, inst->minMagn32);
     }
     inst->normPrev = inst->norm;
 
@@ -450,7 +448,7 @@ int InnoTalkNsx_ProcessCore(void* inst1, short* speechFrame, short* outFrame) {
             else
             {
                 snrLocPost32[i] = magn32[i]; //Q(min)
-                tempdata64 = (int64_t)(AF16_S)*max((int32_t)snrLocPost32[i] - (int32_t)noise32[i], 0); //Q(min + 15)
+                tempdata64 = (int64_t)(AF16_S) * INNOTALK_SPL_MAX((int32_t)snrLocPost32[i] - (int32_t)noise32[i], 0); //Q(min + 15)
                 snrLocPrior32[i] = (int64_t)(AF16 * (int64_t)inst->signalPrev32[i]) + tempdata64; //Q(min + 15)
                 tempdata64 = (int64_t)inst->overdrive16 * noise32[i]; //Q(min + 15)
                 theFilter32[i] = ((int64_t)snrLocPrior32[i] * Q15MOD) / (tempdata64 + snrLocPrior32[i]); //Q((min + 30) - (min + 15)) = Q15
@@ -471,7 +469,7 @@ int InnoTalkNsx_ProcessCore(void* inst1, short* speechFrame, short* outFrame) {
     }
     if (Qdiff > 0)
     {
-        CEVA_TL4_vec_shf32_asm(inst->signalPrev32, Qdiff, HALF_ANAL_BLOCKL, inst->signalPrev32);
+        CEVA_TL4_vec_shf32(inst->signalPrev32, Qdiff, HALF_ANAL_BLOCKL, inst->signalPrev32);
     }
 
 
@@ -526,7 +524,7 @@ int InnoTalkNsx_ProcessCore(void* inst1, short* speechFrame, short* outFrame) {
         winDataI[2 * i + 1] = (int32_t)(imag16[i]);
     }
     CEVA_TL4_fft_real_inv_32_asm(inst->stages, winDataI, winDataO, CEVA_TL4_cos_sin_fft_32, twi_table_32_rfft_256, bitrev, 1);
-    CEVA_TL4_vec_shf32_asm(winDataO, -inst->norm, ANAL_BLOCKL_MAX, winDataO);
+    CEVA_TL4_vec_shf32(winDataO, -inst->norm, ANAL_BLOCKL_MAX, winDataO);
 
     factor32 = Q15MOD;
     if (inst->blockIndex > 0) {
@@ -534,7 +532,7 @@ int InnoTalkNsx_ProcessCore(void* inst1, short* speechFrame, short* outFrame) {
         for (i = 0; i < ANAL_BLOCKL_MAX; i++) {
             energyOut += (uint64_t)(winDataO[i] * winDataO[i]);
         }
-        gain32 = CEVA_TL4_sqrt_int32_asm((energyOut << 30) / (inst->energyIn + 32768), 1);
+        gain32 = CEVA_TL4_sqrt_int32_asm((uint32_t)((energyOut << 30) / (inst->energyIn + 32768)), (uint16_t)1);
 
         if (gain32 > B_LIM16) {
             factor32 = (int32_t)Q15MOD + ((42598 * (gain32 - B_LIM16)) >> 15);

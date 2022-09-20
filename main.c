@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "audio_config.h"
-#include "typedefs.h"
 #include "nsx.h"
 #include "agc.h"
 

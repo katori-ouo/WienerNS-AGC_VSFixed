@@ -8,8 +8,8 @@
 #ifndef INNOTALK_NOISE_SUPRESSION_H_
 #define INNOTALK_NOISE_SUPRESSION_H_
 
+#include "audio_config.h"
 #include "signal_processing_library.h"
-#include "typedefs.h"
 #include "CEVA_common.h"
 #include "ceva_typedef.h"
 

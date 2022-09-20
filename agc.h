@@ -4,7 +4,7 @@
  *  Created on: 2021Äê4ÔÂ26ÈÕ
  *      Author: w
  */
-#include "typedefs.h"
+#include "audio_config.h"
 #include "signal_processing_library.h"
 
 #ifndef SRC_LIB_CODEC_AEC_CORE_TL4_AGC_H_
