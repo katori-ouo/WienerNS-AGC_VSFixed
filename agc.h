@@ -144,9 +144,9 @@ typedef struct
 extern "C" {
 #endif
 int InnoTalkAgc_Sat(short * x, short * y, short framesz, short a);
-void InnoTalkSpl_MemSetW32(int32_t *ptr, int32_t set_value, int length);
-int32_t InnoTalkSpl_DivW32W16(int32_t num, int16_t den);
-int16_t InnoTalkSpl_DivW32W16ResW16(int32_t num, int16_t den);
+// void InnoTalkSpl_MemSetW32(int32_t *ptr, int32_t set_value, int length);
+// int32_t InnoTalkSpl_DivW32W16(int32_t num, int16_t den);
+// int16_t InnoTalkSpl_DivW32W16ResW16(int32_t num, int16_t den);
 //int32_t InnoTalkSpl_SqrtLocal(int32_t in);
 //int32_t InnoTalkSpl_Sqrt(int32_t value);
 int32_t InnoTalkAgc_CalculateGainTable(int32_t *, int16_t,  int16_t , uint8_t , int16_t);
