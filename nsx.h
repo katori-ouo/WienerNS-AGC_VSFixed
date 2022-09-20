@@ -8,8 +8,8 @@
 #ifndef INNOTALK_NOISE_SUPRESSION_H_
 #define INNOTALK_NOISE_SUPRESSION_H_
 
+#include "audio_config.h"
 #include "signal_processing_library.h"
-#include "typedefs.h"
 #include "CEVA_common.h"
 #include "ceva_typedef.h"
 
@@ -84,4 +84,4 @@ int InnoTalkNsx_ProcessCore(void* inst, short* inFrameLow, short* outFrameLow);
 #ifdef __cplusplus
 }
 #endif
-#endif /* NOTALK_NOISE_SUPRESSION_H_ */
+#endif /* INNOTALK_NOISE_SUPRESSION_H_ */

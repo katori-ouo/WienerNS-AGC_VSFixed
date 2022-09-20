@@ -19,7 +19,7 @@
 #define INNOTALK_SPL_SIGNAL_PROCESSING_LIBRARY_H_
 
 #include <string.h>
-#include "typedefs.h"
+#include "audio_config.h"
 typedef struct {
 	int32_t F1A[4];
 	int32_t F1B[4];
@@ -755,12 +755,31 @@ int InnoTalkSpl_DownsampleFast_mips(const int16_t* data_in,
                                   int delay);
 #endif
 
+void InnoTalkSpl_DownsampleBy2(const int16_t* in, int16_t len,
+                             int16_t* out, int32_t* filtState);
+
+void InnoTalkSpl_UpsampleBy2(const int16_t* in, int16_t len,
+                           int16_t* out, int32_t* filtState);
+
 // End: Filter operations.
+
+void InnoTalkSpl_AnalysisQMF(const int16_t* in_data,
+                           int16_t* low_band,
+                           int16_t* high_band,
+                           int32_t* filter_state1,
+                           int32_t* filter_state2);
+void InnoTalkSpl_SynthesisQMF(const int16_t* low_band,
+                            const int16_t* high_band,
+                            int16_t* out_data,
+                            int32_t* filter_state1,
+                            int32_t* filter_state2);
 
 // FFT operations
 
 int InnoTalkSpl_ComplexFFT(int16_t vector[], int stages, int mode);
 int InnoTalkSpl_ComplexIFFT(int16_t vector[], int stages, int mode);
+void InnoTalk_rdft(int, int, float *, int *, float *);
+void InnoTalk_cdft(int, int, float *, int *, float *);
 
 // Treat a 16-bit complex data buffer |complex_data| as an array of 32-bit
 // values, and swap elements whose indexes are bit-reverses of each other.

@@ -40,5 +40,15 @@ void CEVA_TL4_vec_shf32_asm(I32 *inp, I16 shift_val, I16 size_buf, I32 *out)
 	}
 }
 
+void CEVA_TL4_vec_shf32(I32* inp, I16 shift_val, I16 size_buf, I32* out)
+{
+
+	I16 i;
+	for (i = 0; i < size_buf; i++)
+	{
+		*out++ = L_shl(*inp++, shift_val);
+	}
+}
+
 
 

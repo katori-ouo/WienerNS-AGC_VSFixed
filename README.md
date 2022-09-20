@@ -6,9 +6,10 @@
 - 定义程序入口。读取指定的音频文件(.pcm)，进行降噪和AGC后再写入新的文件(.pcm)。
 - 设定音频采样率16kHz，帧长128点。
 
-## 2. typedefs.h
+## 2. audio_config.h
 
-- 声明各种数据类型，如int16_t, int32_t, uint32_t等。
+- 音频处理的一些参数，如采样率和帧长等。
+- 定义数据格式。
 
 ## 3. nsx.h
 
@@ -40,7 +41,3 @@
 - 定义了一些常用的信号处理函数。
 - 函数的声明和部分内联函数在"signal_processing_library.h"和"spl_inl.h"。
 - 其他函数的实现在"operations.c"中。
-
-## 9. audio_config.h
-
-- 音频处理的一些参数，如采样率和帧长等。
