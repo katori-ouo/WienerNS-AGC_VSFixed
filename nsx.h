@@ -84,4 +84,4 @@ int InnoTalkNsx_ProcessCore(void* inst, short* inFrameLow, short* outFrameLow);
 #ifdef __cplusplus
 }
 #endif
-#endif /* NOTALK_NOISE_SUPRESSION_H_ */
+#endif /* INNOTALK_NOISE_SUPRESSION_H_ */
