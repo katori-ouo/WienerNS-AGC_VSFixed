@@ -1,9 +1,9 @@
 #ifndef INNOTALK_AUDIO_CONFIG_H_
 #define INNOTALK_AUDIO_CONFIG_H_
 
-#define ANAL_BLOCKL_MAX         256 /* Max analysis block length */
-#define FRAME_LEN               128 /* Max frame length */
-#define HALF_ANAL_BLOCKL        129 /* Half max analysis block length + 1 */
+#define ANAL_BLOCKL_MAX         128 /* Max analysis block length */
+#define FRAME_LEN               64  /* Max frame length */
+#define HALF_ANAL_BLOCKL        65  /* Half max analysis block length + 1 */
 #define LEN1024_PACKET          1024
 #define LEN512_PACKET           512
 #define LEN256_PACKET           256
