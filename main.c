@@ -49,7 +49,7 @@ void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, uint32_t nSample)
 			if (FRAME_LEN == fread(shInL, sizeof(short), FRAME_LEN, fpIn))
 			{
 				InnoTalkNsx_ProcessCore(pNS_inst, shInL, shTmpL);
-				InnoTalkAgc_Process(AGC_inst, shTmpL, shOutL, agcConfig);
+				InnoTalkAgc_Process(AGC_inst, shTmpL, (int16_t)FRAME_LEN, shOutL, agcConfig);
 				fwrite(shOutL, sizeof(short), FRAME_LEN, fpOut);
 			}
 			else
@@ -66,7 +66,7 @@ void InnoTalkNS16KSampleX(char *szFileIn, char *szFileOut, uint32_t nSample)
 int main()
 {
 	printf("processing...\n");
-	InnoTalkNS16KSampleX("TelinkTest.pcm", "TelinkTest0919.pcm", (uint32_t)16000);
+	InnoTalkNS16KSampleX("TelinkTest.pcm", "TelinkTesto_128.pcm", (uint32_t)16000);
 	printf("end!\n");
 
 	getchar();
