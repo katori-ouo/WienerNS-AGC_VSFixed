@@ -433,7 +433,7 @@ void InnoTalkAgc_InitVad(AgcVad_t *state)
 int InnoTalkAgc_Create(void **agcInst)
 {
 
-    Agc_t *stt = &agcFixed.fs;
+    Agc_t *stt = &agcFixed;
 
 	*agcInst = stt;
 
@@ -606,7 +606,7 @@ int InnoTalkAgc_Process(void *agcInst, const int16_t *in_near, int16_t frame_siz
     int32_t gain32, delta;
     int16_t logratio;//,Record;
     int16_t lower_thr, upper_thr;
-    int16_t zeros, zeros_fast, frac;
+    int16_t zeros, zeros_fast, frac=0;
     int16_t decay;
     int16_t gate, gain_adj;
     int16_t k, n;
