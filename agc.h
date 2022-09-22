@@ -156,7 +156,7 @@ int InnoTalkAgc_Create(void **agcInst);
 //int32_t InnoTalkAgc_InitDigital(DigitalAgc_t *stt, int16_t agcMode);
 int InnoTalkAgc_Init(void *agcInst, int32_t minLevel, int32_t maxLevel, uint32_t fs);
 void InnoTalkAgc_UpdateAgcThresholds(Agc_t *stt);
-int InnoTalkAgc_Process(void * , const int16_t *, int16_t *, InnoTalkAgc_config_t );
+int InnoTalkAgc_Process(void * , const int16_t *, int16_t, int16_t *, InnoTalkAgc_config_t );
 
 #ifdef __cplusplus
 }
